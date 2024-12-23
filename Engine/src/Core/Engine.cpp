@@ -4,6 +4,7 @@
 
 #include "Log.h"
 #include "..\Window\Window.h"
+#include "..\Input\Input.h"
 
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
 {
@@ -22,6 +23,7 @@ void Engine::run()
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		Log::error("Failed to initialize GLAD");
 
+	InitInput(window->windowRef);
 
 	while (!window->shouldClose())
 	{
@@ -40,4 +42,7 @@ void Engine::run()
 void Engine::processInput()
 {
 	glfwPollEvents();
+
+	if (IsKeyPressed(GLFW_KEY_ESCAPE))
+		glfwSetWindowShouldClose(window->windowRef, true);
 }
