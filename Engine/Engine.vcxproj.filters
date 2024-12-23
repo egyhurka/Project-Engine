@@ -36,6 +36,12 @@
     <ClInclude Include="src\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mesh\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Engine.cpp">
@@ -53,8 +59,18 @@
     <ClCompile Include="src\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mesh\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Shader\Source\default_shader.vert" />
+    <None Include="src\Shader\Source\default_shader.frag" />
   </ItemGroup>
 </Project>

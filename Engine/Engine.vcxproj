@@ -22,12 +22,16 @@
     <ClInclude Include="include\glad\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
+    <ClInclude Include="src\Mesh\Mesh.h" />
+    <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\Engine.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Core\Engine.cpp" />
     <ClCompile Include="src\Core\glad.c" />
@@ -36,6 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Shader\Source\default_shader.frag" />
+    <None Include="src\Shader\Source\default_shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
