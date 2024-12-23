@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+/.vs/Project Engine
+/Engine/x64/Debug
+/Game/x64/Debug
+/x64/Debug
