@@ -5,6 +5,8 @@
 
 namespace Log
 {
-	void dprint(std::string message);
-	void eprint(std::string error);
+	void debug(std::string message);	// DEBUG PRINT
+	void error(std::string error);		// ERROR PRINT
+	void key(int key, int action);		// KEY PRINT
+	void mouse(int button, int action);
 }

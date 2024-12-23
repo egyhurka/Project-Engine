@@ -24,12 +24,14 @@
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\Engine.h" />
+    <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Core\Engine.cpp" />
     <ClCompile Include="src\Core\glad.c" />
+    <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
