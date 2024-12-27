@@ -20,6 +20,10 @@ bool IsKeyPressed(int key) {
     return glfwGetKey(glfwGetCurrentContext(), key) == GLFW_PRESS;
 }
 
+bool IsKeyReleased(int key) {
+    return glfwGetKey(glfwGetCurrentContext(), key) == GLFW_RELEASE;
+}
+
 bool IsMouseButtonPressed(int button) {
     return glfwGetMouseButton(glfwGetCurrentContext(), button) == GLFW_PRESS;
 }

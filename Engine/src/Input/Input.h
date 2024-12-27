@@ -5,5 +5,6 @@
 void InitInput(GLFWwindow* window);
 
 bool IsKeyPressed(int key);
+bool IsKeyReleased(int key);
 bool IsMouseButtonPressed(int button);
 void GetMousePosition(double& xpos, double& ypos);

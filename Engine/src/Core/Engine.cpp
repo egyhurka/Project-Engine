@@ -27,7 +27,6 @@ const std::vector<Vertex> vertices =
 	{{-0.5f,  0.5f, 0.0f}}
 };
 
-
 const std::vector<unsigned int> indices = {
 	0, 1, 3,
 	1, 2, 3
@@ -61,10 +60,36 @@ void Engine::run()
 	glfwTerminate();
 }
 
+int polygonMode = 0;
+bool polygonModeKeyReleased = true;
 void Engine::processInput()
 {
 	glfwPollEvents();
 
 	if (IsKeyPressed(GLFW_KEY_ESCAPE))
 		glfwSetWindowShouldClose(window->windowRef, true);
+
+	if (IsKeyReleased(GLFW_KEY_F1) && !polygonModeKeyReleased) {
+		polygonMode = (polygonMode + 1) % 3;
+		polygonModeKeyReleased = true;
+	}
+	else if (IsKeyPressed(GLFW_KEY_F1)) {
+		polygonModeKeyReleased = false;
+	}
+
+	switch (polygonMode)
+	{
+	case 0:
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+	case 1:
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		break;
+	case 2:
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+		break;
+	default:
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+	}
 }
