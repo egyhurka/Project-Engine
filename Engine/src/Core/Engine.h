@@ -14,6 +14,7 @@ public:
 
 private:
 	Window* window;
+	int screenWidth, screenHeight;
 
 	void processInput();
 };

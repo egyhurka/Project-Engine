@@ -1,21 +1,15 @@
 #pragma once
 
-#include <glm/glm.hpp>
-
+#include "Vertex.h"
 #include "..\Shader\Shader.h"
 
 #include <vector>
-
-struct Vertex
-{
-	glm::vec3 Position;
-};
 
 class Mesh
 {
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, glm::vec4 color);
-	void draw(Shader& shader);
+	void draw(Shader& shader, glm::mat4& model, glm::mat4& view, glm::mat4& projection);
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;

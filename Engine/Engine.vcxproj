@@ -23,11 +23,13 @@
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="src\Mesh\Mesh.h" />
+    <ClInclude Include="src\Mesh\Vertex.h" />
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\Engine.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Window\Window.h" />
+    <ClInclude Include="src\Mesh\Geometry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mesh\Mesh.cpp" />
@@ -37,6 +39,7 @@
     <ClCompile Include="src\Core\glad.c" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
+    <ClCompile Include="src\Mesh\Geometry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libraries\glfw3.lib" />

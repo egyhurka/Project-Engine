@@ -1,5 +1,8 @@
 #include "Mesh.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, glm::vec4 color)
 {
 	this->vertices = vertices;
@@ -9,10 +12,15 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, glm:
 	setupMesh();
 }
 
-void Mesh::draw(Shader& shader)
+void Mesh::draw(Shader& shader, glm::mat4& model, glm::mat4& view, glm::mat4& projection)
 {
     shader.use();
     shader.setColor(color);
+
+    shader.setUniformMat4("model", model);
+    shader.setView(view);
+    shader.setUniformMat4("projection", projection);
+
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

@@ -2,6 +2,8 @@
 
 #include "..\Core\Log.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -45,13 +47,13 @@ void Shader::use()
 	glUseProgram(ID);
 }
 
-UniformLocationResult Shader::getUniformLocation(const char* name)
+UniformLocationResult Shader::getUniformLocation(const char* uniform)
 {
-	int location = glGetUniformLocation(ID, name);
+	int location = glGetUniformLocation(ID, uniform);
 
 	if (location == -1)
 	{
-		Log::error("[SHADER] Uniform location not found: " + (std::string)(name));
+		Log::error("[SHADER] Uniform location not found: " + (std::string)(uniform));
 		return { location, false };
 	}
 	
@@ -63,6 +65,20 @@ void Shader::setColor(const glm::vec4& color)
 	auto result = getUniformLocation("uColor");
 	if (result.success)
 		glUniform4f(result.location, color.r, color.g, color.b, color.a);
+}
+
+void Shader::setView(const glm::mat4& view)
+{
+	auto result = getUniformLocation("view");
+	if (result.success)
+		glUniformMatrix4fv(result.location, 1, GL_FALSE, &view[0][0]);
+}
+
+void Shader::setUniformMat4(const char* uniform, const glm::mat4& mat)
+{
+	auto result = getUniformLocation(uniform);
+	if (result.success)
+		glUniformMatrix4fv(result.location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
 std::filesystem::path Shader::getPath(std::string fileName)
