@@ -6,9 +6,7 @@
 #include "../Core/Log.h"
 
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
+#include <filesystem>
 
 struct UniformLocationResult {
 	int location;
@@ -18,7 +16,7 @@ struct UniformLocationResult {
 class Shader
 {
 public:
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(std::string vertexFileName, std::string fragmentFileName);
 
 	void use();
 
@@ -28,6 +26,7 @@ public:
 	void setColor(const glm::vec4& color);
 
 private:
-	std::string readShader(const char* path);
+	std::filesystem::path getPath(std::string fileName);
+	std::string readShader(std::filesystem::path path);
 	void checkCompileErrors(unsigned int shader, std::string type);
 };

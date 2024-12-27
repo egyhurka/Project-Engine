@@ -42,8 +42,7 @@ void Engine::run()
 
 	InitInput(window->windowRef);
 
-
-	Shader shader("C:\\Programozás\\cpp\\Graphics\\OpenGL\\Project Engine\\Engine\\src\\Shader\\Source\\default_shader.vert", "C:\\Programozás\\cpp\\Graphics\\OpenGL\\Project Engine\\Engine\\src\\Shader\\Source\\default_shader.frag");
+	Shader shader("default_shader.vert", "default_shader.frag");
 
 	glm::vec4 color = { 1.0f, 0.0f, 0.2f, 1.0f };
 	Mesh mesh(vertices, indices, color);

@@ -2,12 +2,18 @@
 
 #include "..\Core\Log.h"
 
-#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
+#include <exception>
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+const std::filesystem::path sourcePath = std::filesystem::current_path().parent_path() / "Engine" / "src" / "Shader" / "Source";
+
+Shader::Shader(std::string vertexFileName, std::string fragmentFileName)
 {
-	std::string vCode = readShader(vertexPath);
-	std::string fCode = readShader(fragmentPath);
+	std::string vCode = readShader(getPath(vertexFileName));
+	std::string fCode = readShader(getPath(fragmentFileName));
 
 	const char* vertexCode = vCode.c_str();
 	const char* fragmentCode = fCode.c_str();
@@ -59,16 +65,30 @@ void Shader::setColor(const glm::vec4& color)
 		glUniform4f(result.location, color.r, color.g, color.b, color.a);
 }
 
-std::string Shader::readShader(const char* path)
+std::filesystem::path Shader::getPath(std::string fileName)
+{
+	std::filesystem::path result = sourcePath / fileName;
+	if (!std::filesystem::exists(result))
+	{
+		Log::error("[SHADER] File does not exist: ");
+		Log::error(result.string());
+		return std::filesystem::path();
+	}
+
+	return result;
+}
+
+std::string Shader::readShader(std::filesystem::path path)
 {
 	std::string code;
-	std::ifstream file;
-
-	file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
 	try
 	{
-		file.open(path);
+		std::ifstream file(path);
+		if (!file.is_open()) {
+			throw std::ios_base::failure("Failed to open file");
+		}
+
 		std::stringstream stream;
 		stream << file.rdbuf();
 		file.close();
@@ -76,7 +96,7 @@ std::string Shader::readShader(const char* path)
 	}
 	catch (const std::exception& e)
 	{
-		Log::error("[SHADER] File not successfully read: ");
+		Log::error("[SHADER] Error reading file: ");
 		Log::error(e.what());
 	}
 
