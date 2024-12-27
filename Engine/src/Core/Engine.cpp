@@ -1,10 +1,12 @@
 #include "Engine.h"
 
 #include <glad/glad.h>
+#include <vector>
 
 #include "Log.h"
 #include "..\Window\Window.h"
 #include "..\Shader\Shader.h"
+#include "..\Mesh\Mesh.h"
 #include "..\Input\Input.h"
 
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
@@ -16,6 +18,20 @@ Engine::~Engine()
 {
 	delete window;
 }
+
+const std::vector<Vertex> vertices = 
+{
+	{{0.5f,  0.5f, 0.0f}},
+	{{0.5f, -0.5f, 0.0f}},
+	{{-0.5f, -0.5f, 0.0f}},
+	{{-0.5f,  0.5f, 0.0f}}
+};
+
+
+const std::vector<unsigned int> indices = {
+	0, 1, 3,
+	1, 2, 3
+};
 
 void Engine::run()
 {
@@ -29,14 +45,15 @@ void Engine::run()
 
 	Shader shader("C:\\Programozás\\cpp\\Graphics\\OpenGL\\Project Engine\\Engine\\src\\Shader\\Source\\default_shader.vert", "C:\\Programozás\\cpp\\Graphics\\OpenGL\\Project Engine\\Engine\\src\\Shader\\Source\\default_shader.frag");
 
-
+	glm::vec4 color = { 1.0f, 0.0f, 0.2f, 1.0f };
+	Mesh mesh(vertices, indices, color);
 
 	while (!window->shouldClose())
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-
+		mesh.draw(shader);
 
 		glfwSwapBuffers(window->windowRef);
 		processInput();

@@ -2,6 +2,8 @@
 
 #include "..\Core\Log.h"
 
+#include <string>
+
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
 	std::string vCode = readShader(vertexPath);
@@ -35,6 +37,26 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 void Shader::use()
 {
 	glUseProgram(ID);
+}
+
+UniformLocationResult Shader::getUniformLocation(const char* name)
+{
+	int location = glGetUniformLocation(ID, name);
+
+	if (location == -1)
+	{
+		Log::error("[SHADER] Uniform location not found: " + (std::string)(name));
+		return { location, false };
+	}
+	
+	return { location, true };
+}
+
+void Shader::setColor(const glm::vec4& color)
+{
+	auto result = getUniformLocation("uColor");
+	if (result.success)
+		glUniform4f(result.location, color.r, color.g, color.b, color.a);
 }
 
 std::string Shader::readShader(const char* path)
