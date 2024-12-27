@@ -17,6 +17,6 @@ public:
 	unsigned int ID;
 
 private:
-	const char* readShader(const char* path);
+	std::string readShader(const char* path);
 	void checkCompileErrors(unsigned int shader, std::string type);
 };

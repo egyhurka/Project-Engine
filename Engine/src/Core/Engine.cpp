@@ -4,6 +4,7 @@
 
 #include "Log.h"
 #include "..\Window\Window.h"
+#include "..\Shader\Shader.h"
 #include "..\Input\Input.h"
 
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
@@ -24,6 +25,11 @@ void Engine::run()
 		Log::error("Failed to initialize GLAD");
 
 	InitInput(window->windowRef);
+
+
+	Shader shader("C:\\Programozás\\cpp\\Graphics\\OpenGL\\Project Engine\\Engine\\src\\Shader\\Source\\default_shader.vert", "C:\\Programozás\\cpp\\Graphics\\OpenGL\\Project Engine\\Engine\\src\\Shader\\Source\\default_shader.frag");
+
+
 
 	while (!window->shouldClose())
 	{

@@ -4,18 +4,21 @@
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
-	const char* vCode = readShader(vertexPath);
-	const char* fCode = readShader(fragmentPath);
+	std::string vCode = readShader(vertexPath);
+	std::string fCode = readShader(fragmentPath);
+
+	const char* vertexCode = vCode.c_str();
+	const char* fragmentCode = fCode.c_str();
 
 	unsigned int vertex, fragment;
 
 	vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &vCode, NULL);
+	glShaderSource(vertex, 1, &vertexCode, NULL);
 	glCompileShader(vertex);
 	checkCompileErrors(vertex, "VERTEX");
 
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &fCode, NULL);
+	glShaderSource(fragment, 1, &fragmentCode, NULL);
 	glCompileShader(fragment);
 	checkCompileErrors(fragment, "FRAGMENT");
 
@@ -34,7 +37,7 @@ void Shader::use()
 	glUseProgram(ID);
 }
 
-const char* Shader::readShader(const char* path)
+std::string Shader::readShader(const char* path)
 {
 	std::string code;
 	std::ifstream file;
@@ -48,7 +51,6 @@ const char* Shader::readShader(const char* path)
 		stream << file.rdbuf();
 		file.close();
 		code = stream.str();
-		return code.c_str();
 	}
 	catch (const std::exception& e)
 	{
@@ -56,7 +58,7 @@ const char* Shader::readShader(const char* path)
 		Log::error(e.what());
 	}
 
-	return nullptr;
+	return code;
 }
 
 void Shader::checkCompileErrors(unsigned int shader, std::string type)
@@ -69,7 +71,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			Log::error("[SHADER] Compilation error (" + type + "): " + infoLog);
 		}
 	}
 	else
@@ -78,7 +80,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			Log::error("[SHADER] Program linking error (" + type + "): " + infoLog);
 		}
 	}
 }
