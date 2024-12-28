@@ -4,6 +4,7 @@
 
 class Window;
 class Camera;
+class Renderer;
 
 class Engine 
 {
@@ -18,6 +19,7 @@ public:
 private:
 	Window* window;
 	Camera* cam;
+	Renderer* renderer;
 	int screenWidth, screenHeight;
 
 	void processInput();

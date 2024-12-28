@@ -14,12 +14,14 @@
 #include "..\Shader\Shader.h"
 #include "..\Mesh\Mesh.h"
 #include "..\Mesh\Geometry.h"
+#include "..\Renderer\Renderer.h"
 
 
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
 {
 	window = new Window(width, height, title);
 	cam = new Camera(window->ratio);
+	renderer = new Renderer;
 
 	screenWidth = static_cast<int>(width);
 	screenHeight = static_cast<int>(height);
@@ -29,6 +31,7 @@ Engine::~Engine()
 {
 	delete window;
 	delete cam;
+	delete renderer;
 }
 
 void Engine::run()
@@ -44,6 +47,8 @@ void Engine::run()
 
 	glm::vec4 color = { 1.0f, 0.0f, 0.2f, 1.0f };
 	Mesh mesh(geometry::Cube.vertices, geometry::Cube.indices, color);
+
+	renderer->addToQueue(mesh, shader);
 
 	while (!window->shouldClose())
 	{
@@ -61,13 +66,13 @@ void Engine::run()
 		cam->update(window->ratio);
 
 		// update
-		mesh.update();
+		renderer->update();
 
 		mesh.translate(glm::vec3(0.0f, 0.0f, -3.0f));
 		mesh.rotate();
 		mesh.scale(glm::vec3(0.5f, 2.0f, 1.0f));
 
-		mesh.draw(shader, cam->view, cam->projection);
+		renderer->draw(cam);
 
 		glfwSwapBuffers(window->windowRef);
 		glfwPollEvents();
