@@ -19,7 +19,7 @@
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
 {
 	window = new Window(width, height, title);
-	cam = new Camera(window->ratio, glm::vec3(0.0f, 0.0f, 3.0f));
+	cam = new Camera(window->ratio);
 
 	screenWidth = static_cast<int>(width);
 	screenHeight = static_cast<int>(height);
@@ -60,11 +60,13 @@ void Engine::run()
 		// camera/view transformation
 		cam->update(window->ratio);
 
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		// update
+		mesh.update();
 
-		mesh.draw(shader, model, cam->view, cam->projection);
+		mesh.translate(glm::vec3(0.0f, 0.0f, -3.0f));
+		mesh.rotate();
+
+		mesh.draw(shader, cam->view, cam->projection);
 
 		glfwSwapBuffers(window->windowRef);
 		glfwPollEvents();
