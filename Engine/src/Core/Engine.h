@@ -3,6 +3,7 @@
 #include <string>
 
 class Window;
+class Camera;
 
 class Engine 
 {
@@ -12,9 +13,13 @@ public:
 
 	void run();
 
+	float deltaTime = 0.0f;
+
 private:
 	Window* window;
+	Camera* cam;
 	int screenWidth, screenHeight;
 
 	void processInput();
+	void deltaTimeCalculation();
 };

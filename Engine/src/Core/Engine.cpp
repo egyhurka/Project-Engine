@@ -10,6 +10,7 @@
 #include "Log.h"
 #include "..\Window\Window.h"
 #include "..\Input\Input.h"
+#include "..\Camera\Camera.h"
 #include "..\Shader\Shader.h"
 #include "..\Mesh\Mesh.h"
 #include "..\Mesh\Geometry.h"
@@ -18,6 +19,8 @@
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
 {
 	window = new Window(width, height, title);
+	cam = new Camera(window->ratio, glm::vec3(0.0f, 0.0f, 3.0f));
+
 	screenWidth = static_cast<int>(width);
 	screenHeight = static_cast<int>(height);
 }
@@ -25,6 +28,7 @@ Engine::Engine(unsigned int width, unsigned int height, std::string title)
 Engine::~Engine()
 {
 	delete window;
+	delete cam;
 }
 
 void Engine::run()
@@ -43,21 +47,27 @@ void Engine::run()
 
 	while (!window->shouldClose())
 	{
+		// per-frame time logic
+		deltaTimeCalculation();
+
+		// input
+		processInput();
+
+		// render
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 model = glm::mat4(1.0f);
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 projection = glm::mat4(1.0f);
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		// Need to update screen variables
-		projection = glm::perspective(glm::radians(45.0f), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+		// camera/view transformation
+		cam->update(window->ratio);
 
-		mesh.draw(shader, model, view, projection);
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+		mesh.draw(shader, model, cam->view, cam->projection);
 
 		glfwSwapBuffers(window->windowRef);
-		processInput();
+		glfwPollEvents();
 	}
 	glfwDestroyWindow(window->windowRef);
 	glfwTerminate();
@@ -65,10 +75,11 @@ void Engine::run()
 
 int polygonMode = 0;
 bool polygonModeKeyReleased = true;
+float lastX = 0.0f;
+float lastY = 0.0f;
+bool firstMouse = true;
 void Engine::processInput()
 {
-	glfwPollEvents();
-
 	if (IsKeyPressed(GLFW_KEY_ESCAPE))
 		glfwSetWindowShouldClose(window->windowRef, true);
 
@@ -95,4 +106,42 @@ void Engine::processInput()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		break;
 	}
+
+	if (IsKeyPressed(GLFW_KEY_W))
+		cam->ProcessKeyboard(FORWARD, deltaTime);
+	if (IsKeyPressed(GLFW_KEY_S))
+		cam->ProcessKeyboard(BACKWARD, deltaTime);
+	if (IsKeyPressed(GLFW_KEY_A))
+		cam->ProcessKeyboard(LEFT, deltaTime);
+	if (IsKeyPressed(GLFW_KEY_D))
+		cam->ProcessKeyboard(RIGHT, deltaTime);
+	if (IsKeyPressed(GLFW_KEY_E))
+		cam->ProcessKeyboard(UP, deltaTime);
+	if (IsKeyPressed(GLFW_KEY_Q))
+		cam->ProcessKeyboard(DOWN, deltaTime);
+
+	glm::vec2 mousePosition = GetMousePosition();
+
+	if (firstMouse)
+	{
+		lastX = mousePosition.x;
+		lastY = mousePosition.y;
+		firstMouse = false;
+	}
+
+	float xoffset = mousePosition.x - lastX;
+	float yoffset = lastY - mousePosition.y;
+
+	lastX = mousePosition.x;
+	lastY = mousePosition.y;
+
+	cam->ProcessMouseMovement(xoffset, yoffset);
+}
+
+float lastFrameTime = 0.0f;
+void Engine::deltaTimeCalculation()
+{
+	float currentFrame = static_cast<float>(glfwGetTime());
+	deltaTime = currentFrame - lastFrameTime;
+	lastFrameTime = currentFrame;
 }
