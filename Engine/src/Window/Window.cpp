@@ -2,7 +2,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-Window::Window(unsigned int width, unsigned int height, std::string title) : windowRef(NULL)
+Window::Window(unsigned int width, unsigned int height, std::string title) : windowRef(NULL), ratio((float)width / (float) height)
 {
 	if (width == 0)
 		Log::error("Window width cannot be zero");
@@ -36,10 +36,18 @@ void Window::create()
 	}
 
 	glfwMakeContextCurrent(windowRef);
+	glfwSetWindowUserPointer(windowRef, this);
 	glfwSetFramebufferSizeCallback(windowRef, framebuffer_size_callback);
+
+	glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPos(windowRef, width / 2.0, height / 2.0);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+	Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	if (win)
+		win->ratio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 }
