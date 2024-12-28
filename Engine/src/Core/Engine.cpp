@@ -65,6 +65,7 @@ void Engine::run()
 
 		mesh.translate(glm::vec3(0.0f, 0.0f, -3.0f));
 		mesh.rotate();
+		mesh.scale(glm::vec3(0.5f, 2.0f, 1.0f));
 
 		mesh.draw(shader, cam->view, cam->projection);
 

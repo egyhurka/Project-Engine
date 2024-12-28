@@ -42,6 +42,16 @@ void Mesh::rotate(glm::vec3 axis, float speed)
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(speed), axis);
 }
 
+void Mesh::scale(glm::vec3 factor)
+{
+    model = glm::scale(model, factor);
+}
+
+void Mesh::scale(float factor)
+{
+    model = glm::scale(model, glm::vec3(factor));
+}
+
 void Mesh::setupMesh()
 {
     glGenVertexArrays(1, &VAO);

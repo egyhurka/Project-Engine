@@ -14,6 +14,8 @@ public:
 
 	void translate(glm::vec3 position);
 	void rotate(glm::vec3 axis = glm::vec3(0.0f, 1.0f, 0.0f), float speed = 25.0f);
+	void scale(glm::vec3 factor);
+	void scale(float factor);
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
