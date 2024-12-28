@@ -2,8 +2,13 @@
 
 #include "..\Core\Log.h"
 
+#include <vector>
+
+std::vector<int> keyExceptions = { GLFW_KEY_W, GLFW_KEY_S, GLFW_KEY_A, GLFW_KEY_D, GLFW_KEY_Q, GLFW_KEY_E, GLFW_KEY_LEFT_SHIFT };
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    Log::key(key, action);
+    if (std::find(keyExceptions.begin(), keyExceptions.end(), key) == keyExceptions.end())
+        Log::key(key, action);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {

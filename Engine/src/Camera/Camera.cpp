@@ -23,7 +23,7 @@ void Camera::update(std::optional<float> aspectRatio)
 	view = getViewMatrix();
 }
 
-void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
+void Camera::processKeyboard(CameraMovement direction, float deltaTime)
 {
 	float velocity = movementSpeed * deltaTime;
 	if (direction == FORWARD)
@@ -40,7 +40,7 @@ void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 		position -= worldUp * velocity;
 }
 
-void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
+void Camera::processMouseMovement(float xoffset, float yoffset, bool constrainPitch)
 {
 	xoffset *= mouseSensitivity;
 	yoffset *= mouseSensitivity;
@@ -57,6 +57,11 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPi
 	}
 
 	updateCameraVectors();
+}
+
+void Camera::setSpeedMultiplier(float value)
+{
+	movementSpeed = SPEED * value;
 }
 
 glm::mat4 Camera::getViewMatrix()

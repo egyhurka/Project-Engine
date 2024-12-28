@@ -110,17 +110,23 @@ void Engine::processInput()
 	}
 
 	if (IsKeyPressed(GLFW_KEY_W))
-		cam->ProcessKeyboard(FORWARD, deltaTime);
+		cam->processKeyboard(FORWARD, deltaTime);
 	if (IsKeyPressed(GLFW_KEY_S))
-		cam->ProcessKeyboard(BACKWARD, deltaTime);
+		cam->processKeyboard(BACKWARD, deltaTime);
 	if (IsKeyPressed(GLFW_KEY_A))
-		cam->ProcessKeyboard(LEFT, deltaTime);
+		cam->processKeyboard(LEFT, deltaTime);
 	if (IsKeyPressed(GLFW_KEY_D))
-		cam->ProcessKeyboard(RIGHT, deltaTime);
+		cam->processKeyboard(RIGHT, deltaTime);
 	if (IsKeyPressed(GLFW_KEY_E))
-		cam->ProcessKeyboard(UP, deltaTime);
+		cam->processKeyboard(UP, deltaTime);
 	if (IsKeyPressed(GLFW_KEY_Q))
-		cam->ProcessKeyboard(DOWN, deltaTime);
+		cam->processKeyboard(DOWN, deltaTime);
+
+	if (IsKeyPressed(GLFW_KEY_LEFT_SHIFT))
+		cam->setSpeedMultiplier(5);
+	if (IsKeyReleased(GLFW_KEY_LEFT_SHIFT))
+		cam->setSpeedMultiplier();
+		
 
 	glm::vec2 mousePosition = GetMousePosition();
 
@@ -137,7 +143,7 @@ void Engine::processInput()
 	lastX = mousePosition.x;
 	lastY = mousePosition.y;
 
-	cam->ProcessMouseMovement(xoffset, yoffset);
+	cam->processMouseMovement(xoffset, yoffset);
 }
 
 float lastFrameTime = 0.0f;

@@ -23,11 +23,13 @@ const float SENSITIVITY = 0.1f;
 class Camera
 {
 public:
-	Camera(float aspectRatio, glm::vec3 startPosition);
+	Camera(float aspectRatio, glm::vec3 startPosition = glm::vec3(0.0f));
 
 	void update(std::optional<float> aspectRatio = std::nullopt);
-	void ProcessKeyboard(CameraMovement direction, float deltaTime);
-	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+	void processKeyboard(CameraMovement direction, float deltaTime);
+	void processMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+
+	void setSpeedMultiplier(float value = 1.0f);
 
 	glm::mat4 view;
 	glm::mat4 projection;
