@@ -3,10 +3,10 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
-#include "../Core/Log.h"
-
 #include <string>
 #include <filesystem>
+
+#include "../Core/Log.h"
 
 struct UniformLocationResult {
 	int location;

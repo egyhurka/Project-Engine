@@ -16,6 +16,8 @@
 #include "..\Mesh\Geometry.h"
 #include "..\Renderer\Renderer.h"
 
+#include "..\CoreGame\GameObject\GameObject.h"
+
 
 Engine::Engine(unsigned int width, unsigned int height, std::string title)
 {
@@ -45,10 +47,10 @@ void Engine::run()
 
 	Shader shader("default_shader.vert", "default_shader.frag");
 
-	glm::vec4 color = { 1.0f, 0.0f, 0.2f, 1.0f };
-	Mesh mesh(geometry::Cube.vertices, geometry::Cube.indices, color);
-
-	renderer->addToQueue(mesh, shader);
+	for (GameObject* object : sceneObjects)
+	{
+		
+	}
 
 	while (!window->shouldClose())
 	{
@@ -68,10 +70,6 @@ void Engine::run()
 		// update
 		renderer->update();
 
-		mesh.translate(glm::vec3(0.0f, 0.0f, -3.0f));
-		mesh.rotate();
-		mesh.scale(glm::vec3(0.5f, 2.0f, 1.0f));
-
 		renderer->draw(cam);
 
 		glfwSwapBuffers(window->windowRef);
@@ -79,6 +77,11 @@ void Engine::run()
 	}
 	glfwDestroyWindow(window->windowRef);
 	glfwTerminate();
+}
+
+void Engine::addObject(GameObject* object)
+{
+	sceneObjects.push_back(object);
 }
 
 int polygonMode = 0;

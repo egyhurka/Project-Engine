@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Vertex.h"
-
 #include <vector>
+
+#include "Vertex.h"
 
 struct geometryData
 {

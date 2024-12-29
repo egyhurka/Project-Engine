@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "Vertex.h"
 #include "..\Shader\Shader.h"
-
-#include <vector>
 
 class Mesh
 {

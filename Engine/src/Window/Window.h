@@ -1,9 +1,10 @@
 #pragma once
+
 #include <GLFW/glfw3.h>
 
-#include "..\Core\Log.h"
-
 #include <string>
+
+#include "..\Core\Log.h"
 
 class Window
 {
